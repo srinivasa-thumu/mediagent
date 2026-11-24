@@ -1,6 +1,6 @@
 # MediAgent Diagnostic AI Prototype
 
-A local, synthetic-data prototype for a diagnostic-centre assistant. The React workspace demonstrates report summaries, two-report comparisons, a radiology report-text summary, and routine patient inquiry handoff.
+A local, synthetic-data prototype for a diagnostic-centre assistant. The React workspace demonstrates cross-facility patient-record consolidation, concise summaries, two-report comparisons, a radiology report-text summary, digitized ultrasound request drafts, and routine patient inquiry handoff.
 
 ## Run the prototype
 
@@ -45,5 +45,7 @@ Open `http://localhost:8000/` for the diagnostic-centre landing page or `http://
 - The CBC and metabolic panel data are fictional examples with sample reference intervals.
 - Report summaries compare values only with the intervals printed in each synthetic report. Comparisons describe numeric changes and do not call them improvement or deterioration.
 - The imaging screen summarizes synthetic radiologist report text. Its X-ray graphic is an illustration; no image recognition or image-based interpretation is connected.
+- Patient record groups fictional reports from three sample facilities and summarizes the listed values. No real records are scanned, imported, or connected.
+- Ultrasound requests are browser-session drafts for demonstration only. They are not submitted, clinically validated, or scheduled.
 - The patient assistant uses deterministic demo responses. LangGraph routes each action, and LangChain structured tools handle report lookup and comparison. No external LLM or live diagnostic-centre system is connected.
 - Do not enter real patient information or use these outputs for clinical care. A deployed system that analyzes patient-specific reports or images needs qualified clinical validation, appropriate privacy/security controls, and a regulatory assessment for its intended use.

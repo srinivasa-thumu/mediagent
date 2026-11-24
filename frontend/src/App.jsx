@@ -5,6 +5,8 @@ const API = import.meta.env.VITE_API_URL || '';
 const iconPaths = {
   overview: <><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>,
   report: <><path d="M7 3.75h7l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20V5.25A1.5 1.5 0 0 1 7.5 3.75Z"/><path d="M14 4v4h4M9 13h6M9 16.5h6"/></>,
+  records: <><path d="M7 3.75h7l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20V5.25A1.5 1.5 0 0 1 7.5 3.75Z"/><path d="M14 4v4h4M9 12h6M9 15h6M9 18h3"/><path d="M4 7v14"/></>,
+  ultrasound: <><path d="M4 5h16v11H4zM8 20h8M12 16v4"/><path d="M8 9c1-1 2-1 3 0s2 1 3 0"/></>,
   compare: <><path d="M7 4v16M17 4v16M3.5 8H11M13 16h7.5"/><path d="m8.5 5.5 2.5 2.5-2.5 2.5M15.5 13.5 13 16l2.5 2.5"/></>,
   image: <><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m21 15-5-5L5 20"/></>,
   chat: <><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H5l1.6-3.4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8.5 11.5h7M8.5 14.5h4"/></>,
@@ -25,8 +27,10 @@ function Icon({ name, size = 18, strokeWidth = 1.7 }) {
 
 const NAV_ITEMS = [
   { id: 'review', label: 'Report review', icon: 'report', group: 'PATIENT CARE' },
+  { id: 'records', label: 'Patient record', icon: 'records' },
   { id: 'compare', label: 'Compare reports', icon: 'compare' },
   { id: 'imaging', label: 'Imaging summary', icon: 'image' },
+  { id: 'ultrasound', label: 'Ultrasound request', icon: 'ultrasound' },
   { id: 'patient', label: 'Patient inquiries', icon: 'chat', group: 'CENTRE OPERATIONS' },
 ];
 
@@ -151,6 +155,57 @@ function ImagingSummary({ imaging, loading, error, reload }) {
   </>;
 }
 
+function PatientRecord() {
+  const [record, setRecord] = useState(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  async function loadRecord() {
+    setLoading(true); setError('');
+    try { setRecord(await request('/api/patient-record/demo')); }
+    catch (err) { setError(err.message); }
+    finally { setLoading(false); }
+  }
+  useEffect(() => { loadRecord(); }, []);
+  return <>
+    <PageIntro eyebrow="Patient care / Consolidated history" title="One clearer view across hospitals." subtitle="Bring prior reports together and prepare a concise, source-linked summary for a faster clinician review.">
+      <button className="button button-secondary" onClick={loadRecord} disabled={loading}><Icon name="records" size={16} /> {loading ? 'Refreshing…' : 'Refresh demo record'}</button>
+    </PageIntro>
+    <ErrorBanner message={error} onRetry={loadRecord} />
+    <div className="record-demo-banner"><span><Icon name="shield" size={16} /></span><div><b>Illustrative consolidated record</b><small>Fictional patient data only. This demo groups sample reports; it does not scan or connect to hospital records.</small></div><span className="synthetic-tag">SYNTHETIC</span></div>
+    {loading && <div className="loading-panel"><span className="loading-spinner" /> Gathering the sample reports…</div>}
+    {record && <>
+      <section className="record-overview-card"><div className="record-person"><span className="record-avatar">A</span><div><small>DEMO PATIENT ID</small><h2>{record.patient.label}</h2><p>{record.facility_count} sample facilities · {record.documents.length} reports</p></div></div><div className="record-facilities"><small>SOURCE FACILITIES</small>{record.facilities.map((facility) => <span key={facility}><Icon name="pin" size={13} />{facility}</span>)}</div></section>
+      <section className="record-summary-card"><div className="record-section-heading"><span className="summary-card-icon patient-icon"><Icon name="spark" /></span><div><small>CONCISE CROSS-REPORT SUMMARY</small><h2>Review highlights</h2></div><span className="ai-badge"><Icon name="spark" size={12} /> DEMO SUMMARY</span></div><p>{record.record_summary}</p><div className="record-summary-foot"><Icon name="shield" size={14} /> Always verify against the original report and patient context.</div></section>
+      <section className="record-documents"><div className="record-section-heading"><div><small>CONSOLIDATED DOCUMENTS</small><h2>Reports from the patient history</h2></div><span>{record.documents.length} documents</span></div><div className="record-document-list">{record.documents.map((doc) => <article className="record-document" key={doc.id}><span className="document-icon"><Icon name="report" size={17} /></span><div className="record-document-main"><div><b>{doc.panel}</b><span className="final-status"><i /> {doc.status}</span></div><p>{doc.date} · {doc.facility}</p><small>{doc.clinician_summary}</small></div><button className="copy-button" onClick={() => navigator.clipboard?.writeText(doc.clinician_summary)}>Copy summary</button></article>)}</div></section>
+      <p className="synthetic-footnote">{record.disclaimer}</p>
+    </>}
+  </>;
+}
+
+function UltrasoundRequest() {
+  const [form, setForm] = useState({ patient: 'Demo patient · A-104', clinician: '', study: '', indication: '', priority: 'Routine', notes: '' });
+  const [saved, setSaved] = useState(false);
+  const update = (key) => (event) => { setForm((current) => ({ ...current, [key]: event.target.value })); setSaved(false); };
+  function submit(event) {
+    event.preventDefault();
+    if (event.currentTarget.reportValidity()) setSaved(true);
+  }
+  return <>
+    <PageIntro eyebrow="Patient care / Digital clinical request" title="Turn paper ultrasound forms into a clear draft." subtitle="Capture the request details in one place so centre staff can route it for clinician review."><span className="synthetic-tag">DEMO DRAFT</span></PageIntro>
+    <div className="record-demo-banner"><span><Icon name="shield" size={16} /></span><div><b>Request capture only</b><small>This form does not place an order, choose a protocol, assess urgency or book an appointment.</small></div></div>
+    <div className="ultrasound-layout"><form className="ultrasound-form-card" onSubmit={submit}><div className="record-section-heading"><div><small>DIGITAL REQUEST FORM</small><h2>Ultrasound request details</h2></div><span className="synthetic-tag">SYNTHETIC CASE</span></div><div className="ultrasound-fields">
+      <label>Patient reference<input required value={form.patient} onChange={update('patient')} /></label>
+      <label>Referring clinician<input required placeholder="Clinician name" value={form.clinician} onChange={update('clinician')} /></label>
+      <label>Requested study<input required placeholder="e.g. Abdomen ultrasound" value={form.study} onChange={update('study')} /></label>
+      <label>Priority<select value={form.priority} onChange={update('priority')}><option>Routine</option><option>As stated by clinician</option></select></label>
+      <label className="ultrasound-wide">Clinical indication<textarea required rows="3" placeholder="Enter the indication as provided by the referring clinician" value={form.indication} onChange={update('indication')} /></label>
+      <label className="ultrasound-wide">Additional notes<textarea rows="2" placeholder="Optional request notes" value={form.notes} onChange={update('notes')} /></label>
+    </div><div className="ultrasound-form-footer"><small>Draft is kept only in this browser session.</small><button className="button button-primary" type="submit"><Icon name="plus" size={15} /> Save request draft</button></div>
+      {saved && <div className="request-saved" role="status"><Icon name="shield" size={16} /><div><b>Draft ready for clinician review</b><small>{form.study} · {form.patient} · No request was sent or scheduled.</small></div></div>}
+    </form><aside className="request-review-card"><span className="knowledge-icon"><Icon name="records" /></span><small>WORKFLOW PREVIEW</small><h3>From paper to review</h3><ol><li className="step-done"><span>1</span><div><b>Details captured</b><small>Structured request draft</small></div></li><li><span>2</span><div><b>Clinician review</b><small>Confirm indication and request</small></div></li><li><span>3</span><div><b>Centre follow-up</b><small>Handled by authorised staff</small></div></li></ol><p>Clinical decisions and order approval stay with the referring clinician.</p></aside></div>
+  </>;
+}
+
 function PatientAssistant({}) {
   const [sessionId, setSessionId] = useState('');
   const [messages, setMessages] = useState([]);
@@ -245,7 +300,7 @@ export default function App() {
   }
   useEffect(() => { if (page === 'imaging' && !imaging) loadImaging(); }, [page]);
 
-  const pageTitle = useMemo(() => ({ review: 'Report review', compare: 'Compare reports', imaging: 'Imaging summary', patient: 'Patient inquiries', settings: 'Centre knowledge' }[page] || 'Report review'), [page]);
+  const pageTitle = useMemo(() => ({ review: 'Report review', records: 'Patient record', compare: 'Compare reports', imaging: 'Imaging summary', ultrasound: 'Ultrasound request', patient: 'Patient inquiries', settings: 'Centre knowledge' }[page] || 'Report review'), [page]);
   const closeMenu = () => setMobileNavOpen(false);
 
   return <div className={`app-shell ${sidebarCollapsed ? 'is-sidebar-collapsed' : ''}`}>
@@ -253,8 +308,10 @@ export default function App() {
     <div className="workspace-main"><Header pageTitle={pageTitle} onMenu={() => setMobileNavOpen((open) => !open)} /><main className="workspace-content">
       <div className="environment-banner"><span><Icon name="shield" size={15} /></span><p><b>Prototype environment</b><i>All records, values and imaging examples are synthetic demo data.</i></p><button onClick={() => setPage('settings')}>About data <Icon name="arrow" size={13} /></button></div>
       {page === 'review' && <ReportReview reports={reports} selectedId={selectedId} setSelectedId={setSelectedId} analysis={analysis} loading={loading} error={error} reload={() => loadAnalysis()} setPage={setPage} />}
+      {page === 'records' && <PatientRecord />}
       {page === 'compare' && <CompareReports reports={reports} comparison={comparison} loading={loading} error={error} firstId={compareFirst} secondId={compareSecond} setFirstId={setCompareFirst} setSecondId={setCompareSecond} reload={() => loadComparison()} />}
       {page === 'imaging' && <ImagingSummary imaging={imaging} loading={loading} error={error} reload={loadImaging} />}
+      {page === 'ultrasound' && <UltrasoundRequest />}
       {page === 'patient' && <PatientAssistant />}
       {page === 'settings' && <KnowledgePage />}
     </main><footer className="workspace-footer"><span>MediAgent healthcare AI · prototype</span><span>Synthetic data only <i /> Local demo service</span></footer></div>

@@ -7,6 +7,7 @@ external model and does not perform diagnosis or treatment recommendations.
 from __future__ import annotations
 
 import os
+from datetime import datetime
 from pathlib import Path
 from typing import Any, TypedDict
 import uuid
@@ -33,6 +34,10 @@ class ReportLookup(BaseModel):
 class CompareLookup(BaseModel):
     first_report_id: str = Field(description="Earlier synthetic report ID")
     second_report_id: str = Field(description="Later synthetic report ID")
+
+
+class PatientRecordLookup(BaseModel):
+    patient_id: str = Field(description="Synthetic demo patient ID")
 
 
 def _flag(result: dict[str, Any]) -> str:
@@ -179,6 +184,47 @@ REPORT_COMPARE_TOOL = StructuredTool.from_function(
 )
 
 
+def _consolidate_demo_record(patient_id: str) -> dict[str, Any]:
+    reports = [get_report(report_id) for report_id in ("report-previous", "report-metabolic", "report-current")]
+    reports = [report for report in reports if report and report["patient_label"].endswith(patient_id)]
+    if not reports:
+        return {"error": "That synthetic patient record is not available in this demo."}
+    reports.sort(key=lambda report: datetime.strptime(report["date"], "%d %b %Y"))
+    summaries = [REPORT_SUMMARY_TOOL.invoke({"report_id": report["id"]}) for report in reports]
+    flags = [
+        f"{row['name']} was outside the report-listed interval on {summary['report']['date']}"
+        for summary in summaries for row in summary["results"] if row["status"] != "Within range"
+    ]
+    facilities = list(dict.fromkeys(report["facility"] for report in reports))
+    highlight = (
+        "; ".join(flags) if flags else "No displayed result falls outside its report-listed interval in these samples"
+    )
+    return {
+        "patient": {"id": patient_id, "label": f"Demo patient · {patient_id}", "synthetic": True},
+        "facility_count": len(facilities),
+        "facilities": facilities,
+        "documents": [
+            {"id": report["id"], "label": report["label"], "date": report["date"], "panel": report["panel"],
+             "facility": report["facility"], "status": report["status"], "clinician_summary": summary["clinician_summary"]}
+            for report, summary in zip(reports, summaries)
+        ],
+        "record_summary": (
+            f"{len(reports)} synthetic reports from {len(facilities)} facilities are grouped for review. "
+            f"Across the displayed report-specific intervals: {highlight}. Reference intervals may differ by lab; "
+            "review original reports and interpret the full history with a qualified clinician."
+        ),
+        "disclaimer": "Fictional demo record. No records were scanned or imported from a real hospital system.",
+    }
+
+
+PATIENT_RECORD_TOOL = StructuredTool.from_function(
+    func=_consolidate_demo_record,
+    name="consolidate_demo_patient_record",
+    description="Group synthetic reports across sample facilities and create a concise source-linked review summary.",
+    args_schema=PatientRecordLookup,
+)
+
+
 class AgentState(TypedDict, total=False):
     action: str
     payload: dict[str, Any]
@@ -191,6 +237,10 @@ def _summarize_node(state: AgentState) -> dict[str, Any]:
 
 def _compare_node(state: AgentState) -> dict[str, Any]:
     return {"output": REPORT_COMPARE_TOOL.invoke(state["payload"])}
+
+
+def _record_node(state: AgentState) -> dict[str, Any]:
+    return {"output": PATIENT_RECORD_TOOL.invoke(state["payload"])}
 
 
 def _imaging_node(_: AgentState) -> dict[str, Any]:
@@ -231,21 +281,23 @@ def _chat_node(state: AgentState) -> dict[str, Any]:
 
 def _route_action(state: AgentState) -> str:
     action = state.get("action", "chat")
-    return action if action in {"summarize", "compare", "imaging", "chat"} else "chat"
+    return action if action in {"summarize", "compare", "record", "imaging", "chat"} else "chat"
 
 
 graph_builder = StateGraph(AgentState)
 graph_builder.add_node("summarize", _summarize_node)
 graph_builder.add_node("compare", _compare_node)
+graph_builder.add_node("record", _record_node)
 graph_builder.add_node("imaging", _imaging_node)
 graph_builder.add_node("chat", _chat_node)
 graph_builder.add_conditional_edges(START, _route_action, {
     "summarize": "summarize",
     "compare": "compare",
+    "record": "record",
     "imaging": "imaging",
     "chat": "chat",
 })
-for node in ("summarize", "compare", "imaging", "chat"):
+for node in ("summarize", "compare", "record", "imaging", "chat"):
     graph_builder.add_edge(node, END)
 agent_graph = graph_builder.compile()
 
@@ -321,6 +373,14 @@ def compare_reports(request: CompareRequest) -> dict[str, Any]:
 @app.get("/api/imaging/sample")
 def imaging_sample() -> dict[str, Any]:
     return agent_graph.invoke({"action": "imaging", "payload": {}})["output"]
+
+
+@app.get("/api/patient-record/demo")
+def patient_record_demo() -> dict[str, Any]:
+    result = agent_graph.invoke({"action": "record", "payload": {"patient_id": "A-104"}})["output"]
+    if "error" in result:
+        raise HTTPException(status_code=404, detail=result["error"])
+    return result
 
 
 @app.post("/api/session")
