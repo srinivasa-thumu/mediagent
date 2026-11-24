@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8f9fc" />
+    <meta name="description" content="A helpful AI agent for diagnostic centres. Answer routine test inquiries, organize booking and home collection requests, and connect patients with your team." />
+    <title>AI Agent for Diagnostic Centres | MediAgent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="diagnostics.css" />
+  </head>
+  <body class="diagnostics-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="MediAgent home">MediAgent</a>
+      <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-nav"><span></span><span></span></button>
+      <nav id="primary-nav" class="nav-links" aria-label="Primary navigation">
+        <a href="#centre-types">For diagnostic centres</a>
+        <a href="#capabilities">What it handles</a>
+        <a href="#diagnostic-call-flow">AI in action</a>
+        <a href="#setup">How it works</a>
+      </nav>
+      <a class="button button-nav" href="/agent/">Try the AI workspace <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main id="main">
+      <section class="hero diagnostics-hero section-wrap" id="top">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="pulse-dot"></span> AI agent for diagnostic centres</div>
+          <h1>Too many test inquiries?<br />Let AI handle the <span>first call.</span></h1>
+          <h2 class="hero-subhead">From test information to booking requests. Make every conversation easier.</h2>
+          <p class="hero-lede">Patients call to ask about available tests, prices, preparation instructions, home collection and reports. MediAgent helps answer routine questions, collect booking requests and connect patients with your team when they need personal assistance.</p>
+          <p class="hero-support">Configured around the services and procedures of your diagnostic centre.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#demo">Book a live demo <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="/agent/"><span class="play-icon">▶</span> Open the AI workspace</a>
+          </div>
+          <div class="hero-note"><span class="stars" aria-hidden="true">✳</span><span>AI handles routine inquiries. Your team focuses on patient service.</span></div>
+        </div>
+        <div class="hero-visual diagnostic-visual" aria-label="Illustrative diagnostic centre inquiry summary">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="spark spark-one">✳</div><div class="spark spark-two">✦</div>
+          <div class="diagnostic-inquiry-card">
+            <div class="inquiry-card-top"><span class="inquiry-icon">✚</span><span><small>DIAGNOSTIC CENTRE INQUIRY</small><b>New patient request</b></span><span class="inquiry-badge"><i></i> Received</span></div>
+            <div class="inquiry-divider"></div>
+            <dl class="inquiry-details">
+              <div><dt>Service</dt><dd>Blood test · CBC</dd></div>
+              <div><dt>Collection</dt><dd>Home visit requested</dd></div>
+              <div><dt>Preferred time</dt><dd>Tomorrow morning</dd></div>
+            </dl>
+            <div class="review-status"><span class="review-check">✓</span><span><b>Ready for your team</b><small>Request recorded for booking review</small></span><span class="status-arrow">↗</span></div>
+            <div class="inquiry-card-foot"><span>MediAgent AI assistant</span><span>Administrative inquiry · Human review</span></div>
+          </div>
+          <div class="floating-chip chip-ready"><span class="check-mark">✓</span><span><b>Request organized</b><small>Nothing lost in the rush</small></span></div>
+          <div class="floating-chip chip-hours"><span class="clock-icon">◷</span><span><b>Always available</b><small>Before, during, after hours</small></span></div>
+        </div>
+        <div class="hero-bottom"><span>Calls <b>·</b> WhatsApp <b>·</b> Website</span><span class="hero-bottom-line"></span><span class="hero-bottom-right">One approved knowledge base</span></div>
+      </section>
+
+      <section class="trust-band"><div class="trust-inner"><span>BUILT AROUND THE QUESTIONS PATIENTS ASK</span><div class="trust-list"><span>Test information</span><i></i><span>Home collection</span><i></i><span>Preparation</span><i></i><span>Report status</span></div></div></section>
+
+      <section class="section section-industries" id="everyday-inquiries">
+        <div class="section-heading"><div><div class="eyebrow eyebrow-muted">Everyday patient inquiries</div><h2>Your team handles tests.<br />Patient questions keep coming.</h2></div><p>When your front desk is busy helping the patients at your centre, routine calls can interrupt the work already in progress.</p></div>
+        <div class="industry-grid inquiry-grid">
+          <article class="industry-card inquiry-topic"><div class="topic-icon topic-blue">⌕</div><div class="industry-content"><span class="industry-number">01 / TESTS &amp; PACKAGES</span><h3>Repeated test inquiries</h3><p>Patients ask which tests and health-checkup packages are available.</p></div></article>
+          <article class="industry-card inquiry-topic"><div class="topic-icon topic-green">⌂</div><div class="industry-content"><span class="industry-number">02 / COLLECTION</span><h3>Home collection requests</h3><p>Patients want to know if samples can be collected at home and how to request a visit.</p></div></article>
+          <article class="industry-card inquiry-topic"><div class="topic-icon topic-amber">◷</div><div class="industry-content"><span class="industry-number">03 / PREPARATION</span><h3>Preparation questions</h3><p>Patients ask about fasting, documents and test preparation requirements.</p></div></article>
+          <article class="industry-card inquiry-topic"><div class="topic-icon topic-violet">▤</div><div class="industry-content"><span class="industry-number">04 / REPORTS</span><h3>Report status calls</h3><p>Patients ask whether reports are ready and how they can access them.</p></div></article>
+        </div>
+        <div class="section-callout"><span class="callout-spark">✳</span><b>Let AI handle routine questions.</b><span>Let your team handle testing and patient care.</span></div>
+      </section>
+
+      <section class="centre-types-section" id="centre-types"><div class="centre-types-inner"><div class="section-heading"><div><div class="eyebrow">Configured around your centre</div><h2>Different testing services.<br />One helpful AI assistant.</h2></div><p>Share the verified information your centre wants patients to hear. Configure it for the services and workflows you support.</p></div><div class="centre-type-grid">
+        <article><span class="centre-type-icon">✚</span><span class="type-number">01</span><h3>Pathology laboratories</h3><p>Approved information about blood, urine and other routine laboratory services.</p></article>
+        <article><span class="centre-type-icon">⌕</span><span class="type-number">02</span><h3>Diagnostic centres</h3><p>Verified information about the laboratory and diagnostic services you offer.</p></article>
+        <article><span class="centre-type-icon">▧</span><span class="type-number">03</span><h3>Imaging &amp; radiology</h3><p>Administrative inquiries about X-ray, ultrasound, CT, MRI and more.</p></article>
+        <article><span class="centre-type-icon">♡</span><span class="type-number">04</span><h3>Preventive checkups</h3><p>Approved package details and patient requests for a health checkup.</p></article>
+        <article><span class="centre-type-icon">⌂</span><span class="type-number">05</span><h3>Home sample collection</h3><p>Collect an address, preferred time and other details for your team to review.</p></article>
+        <article><span class="centre-type-icon">⌖</span><span class="type-number">06</span><h3>Multi-branch networks</h3><p>Record a preferred branch and provide approved branch-specific information.</p></article>
+      </div><div class="centre-footnote"><span></span>Configured for the services your centre offers.</div></div></section>
+
+      <section class="section capabilities-section" id="capabilities"><div class="section-heading"><div><div class="eyebrow eyebrow-muted">Everyday diagnostic communication</div><h2>Help patients get<br />the information they need.</h2></div><p>Answers come from the centre-approved details and processes you provide.</p></div><div class="capability-list">
+        <article><span>01</span><div><h3>Answer test inquiries</h3><p>Share approved information about tests and services offered by the centre.</p></div><i>↗</i></article>
+        <article><span>02</span><div><h3>Explain available packages</h3><p>Provide verified package names, included tests and prices supplied by the centre.</p></div><i>↗</i></article>
+        <article><span>03</span><div><h3>Collect booking requests</h3><p>Record the test or service requested, preferred date and location for review.</p></div><i>↗</i></article>
+        <article><span>04</span><div><h3>Coordinate home collection</h3><p>Collect the necessary address and scheduling preferences where home visits are offered.</p></div><i>↗</i></article>
+        <article><span>05</span><div><h3>Share approved preparation details</h3><p>Use only preparation information approved by the centre. Never independently advise on fasting or medication.</p></div><i>↗</i></article>
+        <article><span>06</span><div><h3>Handle report availability questions</h3><p>Check status through an authorized connected system, or record the inquiry for staff.</p></div><i>↗</i></article>
+        <article><span>07</span><div><h3>Provide centre information</h3><p>Share verified timings, branch locations, contact details and administrative procedures.</p></div><i>↗</i></article>
+        <article><span>08</span><div><h3>Arrange human assistance</h3><p>Initiate a supported transfer or collect a callback request when staff help is needed.</p></div><i>↗</i></article>
+      </div></section>
+
+      <section class="diagnostic-demo-section" id="diagnostic-call-flow"><div class="diagnostic-demo-inner"><div class="demo-heading"><div class="eyebrow eyebrow-muted">See how AI handles diagnostic inquiries</div><h2>From test inquiry<br />to the next step.</h2><p>Explore an illustrative conversation. Choose a scenario, then move through each step.</p></div><div class="diagnostic-demo-card">
+        <div class="scenario-tabs" role="tablist" aria-label="Diagnostic inquiry scenarios"><button class="scenario-tab active" role="tab" aria-selected="true" data-scenario="lab">Laboratory test booking</button><button class="scenario-tab" role="tab" aria-selected="false" data-scenario="home">Home sample collection</button></div>
+        <div class="demo-progress-wrap"><div class="demo-steps" role="tablist" aria-label="Conversation steps">
+          <button class="demo-step active" role="tab" aria-selected="true" data-step="0"><span>01</span><b>Patient calls</b></button><button class="demo-step" role="tab" aria-selected="false" data-step="1"><span>02</span><b>Understand request</b></button><button class="demo-step" role="tab" aria-selected="false" data-step="2"><span>03</span><b>Approved information</b></button><button class="demo-step" role="tab" aria-selected="false" data-step="3"><span>04</span><b>Preferred location</b></button><button class="demo-step" role="tab" aria-selected="false" data-step="4"><span>05</span><b>Preferred time</b></button><button class="demo-step" role="tab" aria-selected="false" data-step="5"><span>06</span><b>Next action</b></button>
+        </div></div>
+        <div class="demo-stage" aria-live="polite"><div class="demo-stage-copy"><span class="stage-kicker">STEP 01</span><h3>Patient calls</h3><p class="stage-context">A patient wants information about a laboratory test.</p><div class="chat-line ai-line"><span class="chat-avatar">M</span><p><small>MediAgent AI</small><span>Welcome to our diagnostic centre. How can I help you?</span></p></div><div class="chat-line patient-line"><p><small>Patient</small><span>I want to know about a CBC blood test.</span></p><span class="patient-avatar">P</span></div><div class="step-collected"><span>✓</span><span>Collected: <b>CBC inquiry</b></span></div></div>
+          <aside class="booking-summary"><div class="summary-title"><span class="summary-icon">▤</span><div><b>Test booking summary</b><small>Collected during this illustrative conversation</small></div></div><dl class="booking-fields"><div><dt>Test <i>NEW</i></dt><dd class="field-test">CBC</dd></div><div><dt>Collection</dt><dd class="field-collection">Centre visit</dd></div><div><dt>Location</dt><dd class="field-location">Preferred branch pending</dd></div><div><dt>Preferred time</dt><dd class="field-time">To be discussed</dd></div><div><dt>Next action</dt><dd class="field-next">Patient inquiry recorded</dd></div></dl><div class="human-review"><span>✓</span>Booking is a request for centre review</div></aside>
+        </div>
+        <div class="demo-controls"><button class="demo-prev" type="button" disabled>← Previous</button><span class="step-count">Step 1 of 6</span><button class="demo-next" type="button">Next →</button></div>
+      </div></div></section>
+
+      <section class="report-section" id="patient-privacy"><div class="report-inner"><div class="report-copy"><div class="eyebrow">Report-related communication</div><h2>Help patients know the next step.<br /><span>Keep medical results private.</span></h2><p>MediAgent can help with administrative questions about report readiness when an authorized system is connected.</p><div class="report-points"><article><span class="report-point-icon">◷</span><div><b>Report status</b><p>Share a verified ready or pending status only through an authorized source.</p></div></article><article><span class="report-point-icon">↗</span><div><b>Collection information</b><p>Explain the centre’s approved process for collection or secure access.</p></div></article><article><span class="report-point-icon">✚</span><div><b>Qualified human assistance</b><p>Direct requests to interpret results to the appropriate professionals.</p></div></article></div></div><div class="report-flow-card"><div class="flow-card-heading"><span class="shield-icon">◇</span><span><small>REPORT STATUS COMMUNICATION</small><b>Authorized information only</b></span></div><div class="report-flow"><div><span class="report-flow-icon">▤</span><b>Report status</b><small>Ready or pending</small></div><span class="flow-arrow">→</span><div><span class="report-flow-icon">✓</span><b>Verified source</b><small>Approved system</small></div><span class="flow-arrow">→</span><div><span class="report-flow-icon">↗</span><b>Patient update</b><small>Approved process</small></div></div><div class="privacy-note"><span>i</span><p>Status is shared only through an authorized, verified source and the centre’s patient-authentication process.</p></div></div><div class="report-boundary"><span>!</span> AI must not interpret diagnostic findings, communicate a diagnosis or invent report results.</div></div></section>
+
+      <section class="channels-section diagnostic-channels"><div class="channels-visual"><div class="channel-halo"></div><div class="channel-core"><span class="core-wave">∿</span><b>MediAgent</b><small>ONE APPROVED KNOWLEDGE BASE</small></div><div class="channel-node node-call"><span class="node-icon">⌕</span><b>AI calls</b></div><div class="channel-node node-chat"><span class="node-icon">◌</span><b>WhatsApp</b></div><div class="channel-node node-web"><span class="node-icon">↗</span><b>Website</b></div><svg class="connector-lines" viewBox="0 0 520 410" aria-hidden="true"><path d="M150 100 C190 100 194 174 235 185"/><path d="M370 100 C330 100 326 174 285 185"/><path d="M260 292 C260 250 260 232 260 226"/></svg></div><div class="channels-copy"><div class="eyebrow">One AI. Three channels.</div><h2>Make it easier<br />to reach your centre.</h2><p>Patients can find answers on a call, WhatsApp or your website. Keep information consistent across supported channels.</p><ul class="channel-list"><li><span class="list-icon">⌕</span><span><b>AI call agent</b><small>Handle approved test inquiries and booking requests.</small></span></li><li><span class="list-icon">◌</span><span><b>WhatsApp AI agent</b><small>Share approved information and support configured follow-ups.</small></span></li><li><span class="list-icon">↗</span><span><b>Website AI agent</b><small>Help visitors find services and submit an inquiry.</small></span></li></ul><a class="text-link link-dark" href="#demo">Talk through your channels <span aria-hidden="true">→</span></a></div></section>
+
+      <section class="handoff-section"><div class="handoff-inner"><div class="handoff-art"><div class="handoff-orbit"></div><div class="handoff-agent">M<span>✳</span></div><div class="handoff-person"><span>R</span><b>Reception team</b><small>Ready to follow up</small></div><div class="handoff-route">↗</div></div><div class="handoff-copy"><div class="eyebrow eyebrow-muted">Personal help when needed</div><h2>AI handles the inquiry.<br />Your team takes it forward.</h2><p>Some patients need support with a special booking, preparation question, collection arrangement or report. MediAgent can initiate a supported transfer or record a callback request for your staff.</p><div class="handoff-boundary"><span>✚</span><b>Clinical explanations and test recommendations stay with qualified professionals.</b></div></div></div></section>
+
+      <section class="setup-section diagnostic-setup" id="setup"><div class="setup-heading"><div class="eyebrow">Simple setup</div><h2>Your test services.<br />Your procedures.<br />Your AI agent.</h2><p>We configure the experience around the approved information and workflows at your centre.</p><a class="button button-light" href="#demo">See how it works <span>↗</span></a></div><div class="setup-steps"><article><span>01</span><div><h3>Understand your centre.</h3><p>Review test lists, packages, branches, hours, preparation notes and FAQs.</p></div></article><article><span>02</span><div><h3>Configure your agent.</h3><p>Prepare test inquiries, collection requests, report-status questions and handover.</p></div></article><article><span>03</span><div><h3>Connect supported systems.</h3><p>Set up approved telephony, messaging, website and booking connections.</p></div></article><article><span>04</span><div><h3>Test patient scenarios.</h3><p>Walk through test bookings, home collection and report inquiries together.</p></div></article><article><span>05</span><div><h3>Go live with your team.</h3><p>Activate the communication workflows you have approved.</p></div></article></div></section>
+
+      <section class="section centre-benefits"><div class="section-heading"><div><div class="eyebrow eyebrow-muted">Built for your diagnostic centre</div><h2>Better-organized inquiries.<br />More time for your patients.</h2></div><p>Routine communication gets a clear next step, so the team can focus on work that needs a person.</p></div><div class="benefit-grid"><div><span>01</span><b>Handle routine test inquiries</b><i>↗</i></div><div><span>02</span><b>Organize booking requests</b><i>↗</i></div><div><span>03</span><b>Capture home collection details</b><i>↗</i></div><div><span>04</span><b>Share approved preparation information</b><i>↗</i></div><div><span>05</span><b>Support report-status communication</b><i>↗</i></div><div><span>06</span><b>Prepare staff for patient callbacks</b><i>↗</i></div></div></section>
+
+      <section class="demo-cta diagnostic-cta" id="demo"><div class="cta-orb"></div><div class="eyebrow"><span class="pulse-dot"></span> Ready to improve patient communication?</div><h2>Let AI handle test inquiries.<br />Let your team focus on patient service.</h2><p>From routine test questions and booking requests to report summaries and comparison, MediAgent helps make diagnostic-centre conversations easier to manage.</p><a class="button button-light" href="/agent/">Explore the AI workspace <span aria-hidden="true">↗</span></a><a class="cta-secondary" href="mailto:hey@cmplt.in?subject=Diagnostic%20Centre%20AI%20Agent%20Demo">Book a live demo with our team <span>→</span></a></section>
+    </main>
+
+    <footer class="site-footer"><div class="footer-main"><div class="footer-brand-block"><a class="brand footer-brand" href="#top">MediAgent</a><p>Every conversation counts.<br />Completely connected.</p><div class="social-links"><a href="https://www.linkedin.com/" aria-label="LinkedIn">in</a><a href="https://www.instagram.com/" aria-label="Instagram">◎</a></div></div><div class="footer-col"><b>Explore</b><a href="#centre-types">Diagnostic centres</a><a href="#capabilities">What it handles</a><a href="#diagnostic-call-flow">AI in action</a><a href="#demo">Book a demo</a></div><div class="footer-col"><b>Healthcare</b><a href="#centre-types">Pathology labs</a><a href="#centre-types">Imaging centres</a><a href="#centre-types">Home collection</a><a href="#patient-privacy">Patient privacy</a></div><div class="footer-contact"><b>Say hello.</b><a href="mailto:hey@cmplt.in">hey@cmplt.in</a><a href="tel:+919376902211">+91 93769 02211</a><span>Ahmedabad, Gujarat, India</span></div></div><div class="footer-bottom"><span>© 2026 MediAgent. A brand by bigO International LLP.</span><div><a href="#patient-privacy">Privacy</a><a href="#demo">Terms</a><a href="#patient-privacy">Patient data</a></div><a class="back-top" href="#top">Back to top ↑</a></div></footer>
+    <script src="script.js"></script>
+  </body>
+</html>
